@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visual Product Matcher</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>👗 Visual Product Matcher</h1>
+
+    <div class="upload-box">
+      <input type="file" id="imgFile" accept="image/*">
+      <input type="text" id="imgUrl" placeholder="Or paste an image URL" />
+      <button id="searchBtn">Find Similar</button>
+    </div>
+
+    <div id="loading" class="loading">⏳ Searching for similar products...</div>
+
+    <div class="result-area">
+      <div id="queryImage" class="query-image"></div>
+      <div id="results" class="results-grid"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
