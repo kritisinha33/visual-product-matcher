@@ -17,7 +17,8 @@ import os
 # 1️⃣ Initialize app
 # =========================================
 app = Flask(__name__)
-CORS(app)
+# Allow requests specifically from your Netlify frontend
+CORS(app, origins="https://visual-product-matcher3.netlify.app")
 
 @app.route('/')
 def home():
@@ -70,12 +71,10 @@ def find_similar_products(query_features, top_k=5):
 @app.route('/api/search', methods=['POST'])
 def search():
     try:
-        # Case 1: image file uploaded
         if 'file' in request.files:
             file = request.files['file']
             img = Image.open(file.stream).convert('RGB')
         
-        # Case 2: image URL provided
         elif request.json and 'image_url' in request.json:
             url = request.json['image_url']
             response = requests.get(url)
@@ -84,7 +83,6 @@ def search():
         else:
             return jsonify({"error": "No image provided"}), 400
 
-        # Extract features + find matches
         q_feat = extract_features_from_pil(img)
         results = find_similar_products(q_feat, top_k=5)
 
@@ -92,7 +90,6 @@ def search():
     
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 # =========================================
 # 6️⃣ Run app (Render-compatible)

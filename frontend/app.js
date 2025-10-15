@@ -1,4 +1,7 @@
-const backendURL = "http://127.0.0.1:5000/api/search";
+// frontend/app.js
+
+const backendBaseURL = "https://visual-product-matcher-yijy.onrender.com";
+const apiURL = `${backendBaseURL}/api/search`;
 
 document.getElementById("searchBtn").addEventListener("click", async () => {
   const fileInput = document.getElementById("imgFile");
@@ -30,13 +33,18 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
   try {
     let response;
     if (useFile) {
-      response = await fetch(backendURL, { method: "POST", body: formData });
+      response = await fetch(apiURL, { method: "POST", body: formData });
     } else {
-      response = await fetch(backendURL, {
+      response = await fetch(apiURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: formData,
       });
+    }
+    
+    // Check if the server responded with an error (like 404)
+    if (!response.ok) {
+        throw new Error(`Server responded with status: ${response.status}`);
     }
 
     const data = await response.json();
@@ -55,8 +63,9 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
       data.results.forEach((p) => {
         const card = document.createElement("div");
         card.classList.add("card");
+        // IMPORTANT: Use the backendBaseURL for image sources
         card.innerHTML = `
-          <img src="http://127.0.0.1:5000/${p.image}" alt="${p.name}">
+          <img src="${backendBaseURL}/${p.image}" alt="${p.name}">
           <h3>${p.name}</h3>
           <p>${p.category}</p>
           <p>Similarity: ${p.similarity}</p>
@@ -69,6 +78,6 @@ document.getElementById("searchBtn").addEventListener("click", async () => {
   } catch (err) {
     console.error(err);
     loadingDiv.style.display = "none";
-    alert("Error: Unable to connect to backend.");
+    alert("Error: Unable to connect to backend. Please check the console for details.");
   }
 });
