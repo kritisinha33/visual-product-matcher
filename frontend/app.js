@@ -1,6 +1,6 @@
 // frontend/app.js
 
-const backendBaseURL = "https://visual-product-matcher-yijy.onrender.com";
+const backendBaseURL = "http://127.0.0.1:5000";
 const apiURL = `${backendBaseURL}/api/search`;
 
 document.getElementById("searchBtn").addEventListener("click", async () => {

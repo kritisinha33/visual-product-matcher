@@ -18,7 +18,7 @@ import os
 # =========================================
 app = Flask(__name__)
 # Allow requests specifically from your Netlify frontend
-CORS(app, origins="https://visual-product-matcher3.netlify.app")
+CORS(app)
 
 @app.route('/')
 def home():
